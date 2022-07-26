@@ -52,7 +52,7 @@ def loggedin_board():
 @app.route('/add', methods = ['POST'])
 def Board():
     if request.method == 'POST':
-        board.append([request.form['name'], request.form['context']])
+        board.append([request.form['name'], request.form['url']])
         return redirect(url_for('loggedin_board'))
     else:
         return render_template('board.html', rows = board)
