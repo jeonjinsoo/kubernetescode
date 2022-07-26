@@ -22,7 +22,7 @@
             <br><br>
             Write your text
             <br>
-            <textarea name="context" cols="40" rows="10"></textarea>
+            <input type="url" name="url">
             <br>
             <input type = "submit" value = "POST"><br>
         </form>
@@ -37,7 +37,7 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ row[0] }}</td>
-                <td><a href="{{ row[1] }}">click</a></td>
+                <td><a href="{{ row[1] }}" target="_blank">생각을 코딩하다</a></td>
             </tr>
             {% endfor %}
         </table>
