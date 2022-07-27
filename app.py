@@ -20,7 +20,7 @@ userinfo = {'fu': 'fu'}
 @app.route("/")
 def homepage():
     if session.get('logged_in') :
-        return render_template('loggedin.html')
+        return render_template('loggedin.html', rows = rows)
     else:
         return render_template('index.html', rows = rows)
 
@@ -77,7 +77,7 @@ def add():
             con.rollback()
             msg = "Error in insert operation"
         finally : 
-            return render_template("board.html", message = msg)
+            return render_template("board.html", message = msg, rows = rows)
             
 
 
