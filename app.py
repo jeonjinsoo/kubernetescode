@@ -4,7 +4,13 @@ conn = sqlite3.connect('database.db')
 print ("Opened database successfully")
 conn.execute('CREATE TABLE IF NOT EXISTS goorm (name TEXT, url TEXT)')
 print ("Table created successfully")
-conn.close()
+con = sqlite3.connect("database.db")
+con.row_factory = sqlite3.Row
+cur = con.cursor()
+cur.execute("select * from
+rows = cur.fetchall()
+print("DB:")
+print(rows)
 app = Flask(__name__)
 app.secret_key = 'this is super key'
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -16,13 +22,6 @@ def homepage():
     if session.get('logged_in') :
         return render_template('loggedin.html')
     else:
-        con = sqlite3.connect("database.db")
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        cur.execute("select * from goorm")
-        rows = cur.fetchall()
-        print("DB:")
-        print(rows)
         return render_template('index.html', rows = rows)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -58,14 +57,6 @@ def logout():
 
 @app.route('/board')
 def loggedin_board():
-    #데이터베이스에서 데이터를 가져 온다. 
-    con = sqlite3.connect("database.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute("select * from goorm")
-    rows = cur.fetchall()
-    print("DB:")
-    print(rows)
     return render_template('board.html', rows = rows) 
 
 @app.route('/add', methods = ['POST'])
@@ -87,6 +78,6 @@ def add():
             msg = "Error in insert operation"
         finally : 
             return render_template("board.html", message = msg)
-            con.close()
+            
 
 
