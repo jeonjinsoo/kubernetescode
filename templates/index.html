@@ -24,18 +24,18 @@
         <a href="login">
             LOGIN
         </a>
-     <h4>BLOG LIST</h4>
+     <h4>LIST</h4>
         <table class="table" style = "word-break:break-all" style="table-layout: fixed">
             <thread>
                 <th>#</th>
-                <th>MEMBER</th>
+                <th>Member</th>
                 <th>URL</th>
             </thread>
             {% for row in rows %}
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ row["name"] }}</td>
-                <td><a href="{{ row["url"] }}" target="_blank">Go to {{ row["name"] }}'s blog</a></td>
+                <td><a href="{{ row["url"] }}" target="_blank">Go to {{ row["name"] }} blog</a></td>
             </tr>
             {% endfor %}
         </table>
