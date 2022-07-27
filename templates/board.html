@@ -14,7 +14,7 @@
         <img src="https://ww.namu.la/s/b8d686cd9c35225957c823ad209dfc4da13fef8ce358835b3e3cff0335bb1cbe6c52f956404911f9a05b96b827cd4a495bbe2408a0165c5b4bf70dd434af8cd00a89d98ff604549b5213842d11006bd52b0e85b18484f3a9123439366ca1aad8dda89d911150a6b4d6041902d755ffe7">
     </div>
     <div>
-        <h1>POST ANY TEXT</h1>
+        <h1>POST YOUR PAGE</h1>
         <form action="/add" method="POST">
             Your nickname
             <br>
@@ -26,18 +26,18 @@
             <br>
             <input type = "submit" value = "POST"><br>
         </form>
-        <h4>BOARD</h4>
+        <h4>BLOG LIST</h4>
         <table class="table" style = "word-break:break-all" style="table-layout: fixed">
             <thread>
                 <th>#</th>
-                <th>nickname</th>
-                <th>url</th>
+                <th>MEMBER</th>
+                <th>URL</th>
             </thread>
             {% for row in rows %}
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ row["name"] }}</td>
-                <td><a href="{{ row["url"] }}" target="_blank">{{ row["name"] }}의 공부페이지</a></td>
+                <td><a href="{{ row["url"] }}" target="_blank">Go to {{ row["name"] }}'s blog</a></td>
             </tr>
             {% endfor %}
         </table>
