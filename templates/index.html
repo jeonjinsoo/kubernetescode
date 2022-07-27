@@ -24,6 +24,21 @@
         <a href="login">
             LOGIN
         </a>
+     <h4>BOARD</h4>
+        <table class="table" style = "word-break:break-all" style="table-layout: fixed">
+            <thread>
+                <th>#</th>
+                <th>nickname</th>
+                <th>url</th>
+            </thread>
+            {% for row in rows %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ row["name"] }}</td>
+                <td><a href="{{ row["url"] }}" target="_blank">{{ row["name"] }}의 공부페이지</a></td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 </html>
