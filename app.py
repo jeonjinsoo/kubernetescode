@@ -1,10 +1,15 @@
 from flask import Flask, render_template, session, url_for, redirect, request
-
+import sqlite3
+conn = sqlite3.connect('database.db')
+print ("Opened database successfully")
+conn.execute('CREATE TABLE IF NOT EXISTS goorm (name TEXT, url TEXT)')
+print ("Table created successfully")
+conn.close()
 app = Flask(__name__)
 app.secret_key = 'this is super key'
 app.config['SESSION_TYPE'] = 'filesystem'
 userinfo = {'fu': 'fu'}
-board = []
+
 
 @app.route("/")
 def homepage():
@@ -46,15 +51,35 @@ def logout():
 
 @app.route('/board')
 def loggedin_board():
-    return render_template('board.html', rows = board)
-
+    #데이터베이스에서 데이터를 가져 온다. 
+    con = sqlite3.connect("database.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from goorm")
+    rows = cur.fetchall()
+    print("DB:")
+    print(rows)
+    return render_template('board.html', rows = rows) 
 
 @app.route('/add', methods = ['POST'])
-def Board():
+def add():
+    msg = ""
     if request.method == 'POST':
-        board.append([request.form['name'], request.form['url']])
-        return redirect(url_for('loggedin_board'))
-    else:
-        return render_template('board.html', rows = board)
+        try:
+            name = request.form['name']
+            url = request.form['url']
+            
+
+            with sqlite3.connect("database.db") as con:
+                cur = con.cursor()
+                cur.execute("INSERT INTO goorm (name, url) VALUES (?, ?)", (name, url))
+                con.commit()
+                msg = "Record successfully added"
+        except:
+            con.rollback()
+            msg = "Error in insert operation"
+        finally : 
+            return render_template("board.html", message = msg)
+            con.close()
 
 
