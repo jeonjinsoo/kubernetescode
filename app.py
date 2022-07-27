@@ -16,7 +16,14 @@ def homepage():
     if session.get('logged_in') :
         return render_template('loggedin.html')
     else:
-        return render_template('index.html')
+        con = sqlite3.connect("database.db")
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        cur.execute("select * from goorm")
+        rows = cur.fetchall()
+        print("DB:")
+        print(rows)
+        return render_template('index.html', rows = rows)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
