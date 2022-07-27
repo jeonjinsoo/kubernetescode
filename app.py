@@ -61,7 +61,6 @@ def loggedin_board():
 
 @app.route('/add', methods = ['POST'])
 def add():
-    msg = ""
     if request.method == 'POST':
         try:
             name = request.form['name']
@@ -72,12 +71,8 @@ def add():
                 cur = con.cursor()
                 cur.execute("INSERT INTO goorm (name, url) VALUES (?, ?)", (name, url))
                 con.commit()
-                msg = "Record successfully added"
-        except:
-            con.rollback()
-            msg = "Error in insert operation"
-        finally : 
-            return render_template("board.html", message = msg, rows = rows)
+            finally:
+            return render_template("board.html", rows = rows)
             
 
 
