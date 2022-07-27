@@ -37,7 +37,7 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ row["name"] }}</td>
-                <td>{{ row["url"] }}</td>
+                <td><a href="{{ row["url"] }}" target="_blank">{{ row["name"] }}의 공부페이지</a></td>
             </tr>
             {% endfor %}
         </table>
