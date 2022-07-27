@@ -7,7 +7,7 @@ print ("Table created successfully")
 con = sqlite3.connect("database.db")
 con.row_factory = sqlite3.Row
 cur = con.cursor()
-cur.execute("select * from
+cur.execute("select * from goorm")
 rows = cur.fetchall()
 print("DB:")
 print(rows)
