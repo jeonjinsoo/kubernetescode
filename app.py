@@ -71,7 +71,8 @@ def add():
                 cur = con.cursor()
                 cur.execute("INSERT INTO goorm (name, url) VALUES (?, ?)", (name, url))
                 con.commit()
-            finally:
+            
+        finally:
             return render_template("board.html", rows = rows)
             
 
