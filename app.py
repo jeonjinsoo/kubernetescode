@@ -14,11 +14,6 @@ userinfo = {'fu': 'fu'}
 @app.route("/")
 def homepage():
     if session.get('logged_in') :
-        con = sqlite3.connect("database.db")
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        cur.execute("select * from goorm")
-        rows = cur.fetchall()
         return render_template('loggedin.html', rows = rows)
     else:
         return render_template('index.html', rows = rows)
@@ -58,6 +53,11 @@ def logout():
 
 @app.route('/board')
 def loggedin_board():
+    con = sqlite3.connect("database.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from goorm")
+    rows = cur.fetchall()
     return render_template('board.html', rows = rows) 
 
 @app.route('/add', methods = ['POST'])
