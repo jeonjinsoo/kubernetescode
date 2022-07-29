@@ -7,7 +7,6 @@ con.row_factory = sqlite3.Row
 cur = con.cursor()
 cur.execute("select * from goorm")
 rows = cur.fetchall()
-return render_template('loggedin.html', rows = rows)
 
 app = Flask(__name__)
 app.secret_key = 'this is super key'
