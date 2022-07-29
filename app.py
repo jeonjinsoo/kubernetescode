@@ -53,11 +53,6 @@ def logout():
 
 @app.route('/board')
 def loggedin_board():
-    con = sqlite3.connect("database.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute("select * from goorm")
-    rows = cur.fetchall()
     return render_template('board.html', rows = rows) 
 
 @app.route('/add', methods = ['POST'])
