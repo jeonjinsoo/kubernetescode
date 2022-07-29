@@ -4,11 +4,7 @@ conn = sqlite3.connect('database.db')
 conn.execute('CREATE TABLE IF NOT EXISTS goorm (name TEXT, url TEXT)')
 
 
-con = sqlite3.connect("database.db")
-con.row_factory = sqlite3.Row
-cur = con.cursor()
-cur.execute("select * from goorm")
-rows = cur.fetchall()
+
 
 app = Flask(__name__)
 app.secret_key = 'this is super key'
@@ -17,6 +13,11 @@ userinfo = {'fu': 'fu'}
 
 @app.route("/")
 def homepage():
+    con = sqlite3.connect("database.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from goorm")
+    rows = cur.fetchall()
     if session.get('logged_in') :
         return render_template('loggedin.html', rows = rows)
     else:
