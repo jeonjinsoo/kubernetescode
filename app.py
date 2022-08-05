@@ -72,16 +72,3 @@ def home():
     id = session['login_user']
     return render_template('home.html', error=error, name=id)
  
-if __name__ == '__main__':
-    app.run()
-
-            
-
-@app.route('/update')
-def update():
-    con = sqlite3.connect("database.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute("select * from goorm")
-    rows = cur.fetchall()
-    return render_template('loggedin.html', rows = rows)
