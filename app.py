@@ -1,77 +1,76 @@
-from flask import Flask, render_template, session, url_for, redirect, request
-import sqlite3
-conn = sqlite3.connect('database.db')
-conn.execute('CREATE TABLE IF NOT EXISTS goorm (name TEXT, url TEXT)')
-con = sqlite3.connect("database.db")
-con.row_factory = sqlite3.Row
-cur = con.cursor()
-cur.execute("select * from goorm")
-rows = cur.fetchall()
-
+from flask import Flask, session, render_template, redirect, request, url_for
+from flaskext.mysql import MySQL
+ 
+mysql = MySQL()
 app = Flask(__name__)
-app.secret_key = 'this is super key'
-app.config['SESSION_TYPE'] = 'filesystem'
-userinfo = {'fu': 'fu'}
-
-@app.route("/")
-def homepage():
-    if session.get('logged_in') :
-        return render_template('loggedin.html', rows = rows)
-    else:
-        return render_template('index.html', rows = rows)
-
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+app.secret_key = "ABCDEFG"
+mysql.init_app(app)
+ 
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    error = None
+ 
     if request.method == 'POST':
-        name = request.form['username']
-        password = request.form['password']
-        try:
-            if name in userinfo:
-                if userinfo[name] == password:
-                    session['logged_in'] = True
-                    return redirect(url_for('homepage'))
-                else:
-                    return 'Wrong Password!'
-            return 'ID does not exist'
-        except:
-            return 'Don\'t login'
-    else:
-        return render_template('login.html')
-
-@app.route('/register', methods=['GET', 'POST'])
-def regist():
+        id = request.form['id']
+        pw = request.form['pw']
+ 
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        sql = "SELECT id FROM users WHERE id = %s AND pw = %s"
+        value = (id, pw)
+        cursor.execute("set names utf8")
+        cursor.execute(sql, value)
+ 
+        data = cursor.fetchall()
+        cursor.close()
+        conn.close()
+ 
+        for row in data:
+            data = row[0]
+ 
+        if data:
+            session['login_user'] = id
+            return redirect(url_for('home'))
+        else:
+            error = 'invalid input data detected !'
+    return render_template('main.html', error = error)
+ 
+ 
+@app.route('/register.html', methods=['GET', 'POST'])
+def register():
+    error = None
     if request.method == 'POST':
-        userinfo[request.form['username']] = request.form['password']
-        return redirect(url_for('login'))
-    else:
-        return render_template('register.html')
+        id = request.form['regi_id']
+        pw = request.form['regi_pw']
+ 
+        conn = mysql.connect()
+        cursor = conn.cursor()
+ 
+        sql = "INSERT INTO users VALUES ('%s', '%s')" % (id, pw)
+        cursor.execute(sql)
+ 
+        data = cursor.fetchall()
+ 
+        if not data:
+            conn.commit()
+            return redirect(url_for('main'))
+        else:
+            conn.rollback()
+            return "Register Failed"
+ 
+        cursor.close()
+        conn.close()
+    return render_template('register.html', error=error)
+ 
+@app.route('/home.html', methods=['GET', 'POST'])
+def home():
+    error = None
+    id = session['login_user']
+    return render_template('home.html', error=error, name=id)
+ 
+if __name__ == '__main__':
+    app.run()
 
-@app.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return render_template('index.html', rows = rows)
-
-@app.route('/board')
-def loggedin_board():
-    return render_template('board.html', rows = rows) 
-
-@app.route('/add', methods = ['POST'])
-def add():
-    if request.method == 'POST':
-        try:
-            name = request.form['name']
-            url = request.form['url']
-            
-
-            with sqlite3.connect("database.db") as con:
-                cur = con.cursor()
-                cur.execute("INSERT INTO goorm (name, url) VALUES (?, ?)", (name, url))
-                con.commit()
-                
-        finally:
-            return redirect(url_for('update'))
             
 
 @app.route('/update')
