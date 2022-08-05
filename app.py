@@ -2,11 +2,6 @@ from flask import Flask, session, render_template, redirect, request, url_for
 from flaskext.mysql import MySQL
  
 mysql = MySQL()
-app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '189756'
-app.config['MYSQL_DATABASE_DB'] = 'user_info'
-app.config['MYSQL_DATABASE_HOST'] = '192.168.79.19:3306'
 app.secret_key = "ABCDEFG"
 mysql.init_app(app)
  
