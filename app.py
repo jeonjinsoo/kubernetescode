@@ -2,7 +2,6 @@ from flask import Flask, session, render_template, redirect, request, url_for
 from flaskext.mysql import MySQL
  
 mysql = MySQL()
-app.secret_key = "ABCDEFG"
 mysql.init_app(app)
  
 @app.route('/', methods=['GET', 'POST'])
