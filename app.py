@@ -1,8 +1,19 @@
 from flask import Flask, session, render_template, redirect, request, url_for
-from flaskext.mysql import MySQL
+from flask_mysqldb import MySQL
+
  
-mysql = MySQL()
-mysql.init_app(app)
+
+app.config['MYSQL_HOST']='http://database-1.cceupqtdw2si.ap-northeast-2.rds.amazonaws.com/'
+
+app.config['MYSQL_USER']='admin'
+
+app.config['MYSQL_PASSWORD']='GOORM0808'
+
+app.config['MYSQL_DB']='goorm'
+
+
+mysql=MySQL(app)
+
  
 @app.route('/', methods=['GET', 'POST'])
 def main():
