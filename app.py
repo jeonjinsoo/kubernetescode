@@ -4,7 +4,7 @@ import pymysql
  
 import pymysql 
 
-conn = pymysql.connect(host='http://database-1.cceupqtdw2si.ap-northeast-2.rds.amazonaws.com', user='root', password='GOORM0808', db='goorm', charset='utf8') 
+conn = pymysql.connect(host='http://database-1.cceupqtdw2si.ap-northeast-2.rds.amazonaws.com', user='admin', password='GOORM0808', db='goorm', charset='utf8') 
 cursor = conn.cursor() 
 
 sql = '''CREATE TABLE user ( 
