@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, redirect, request, url_for
 from flask_mysqldb import MySQL
 
- 
+app = Flask(__name__)
 
 app.config['MYSQL_HOST']='http://database-1.cceupqtdw2si.ap-northeast-2.rds.amazonaws.com/'
 
